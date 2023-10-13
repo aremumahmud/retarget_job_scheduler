@@ -19,7 +19,9 @@ agenda.define('send-email', async(job) => {
         const { emailRecipient, emailSubject, emailText } = job.attrs.data;
 
         const transporter = nodemailer.createTransport({
-            service: process.env.EMAIL_SERVICE_PROVIDER,
+            host: process.env.EMAIL_SERVICE_PROVIDER,
+            port: 465,
+            secure: true, 
             auth: {
                 user: process.env.EMAIL_USER,
                 pass: process.env.EMAIL_PASSWORD,
