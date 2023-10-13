@@ -1,24 +1,20 @@
 const express = require('express');
-const { v4: uuidv4 } = require('uuid');
-const fs = require('fs');
 const nodemailer = require('nodemailer');
 const dotenv = require('dotenv');
-const serialize = require('node-serialize');
 const Agenda = require('agenda');
+const generate = require('./generate_email');
 
 dotenv.config();
 
 const app = express();
 app.use(express.json());
 
-const dataFilePath = 'cron-jobs.json';
-let cronJobs = {};
-
+console.log(process.env)
 const mongoConnectionString = process.env.MONGO_URL; // Replace with your MongoDB URL
 const agenda = new Agenda({ db: { address: mongoConnectionString } });
 
 agenda.define('send-email', async(job) => {
-    // console.log(job)
+    // console.log(process.env)
     try {
         const { emailRecipient, emailSubject, emailText } = job.attrs.data;
 
@@ -34,7 +30,7 @@ agenda.define('send-email', async(job) => {
             from: process.env.EMAIL_USER,
             to: emailRecipient,
             subject: emailSubject,
-            text: emailText,
+            html: generate(JSON.parse(emailText)),
         };
 
         await transporter.sendMail(mailOptions);
@@ -46,20 +42,20 @@ agenda.define('send-email', async(job) => {
 
 
 app.post('/create-cron-job', async(req, res) => {
-    const { emailRecipient, jobIdsToDelete } = req.body;
+    const { emailRecipient, jobIdsToDelete, data } = req.body;
 
     // Schedule to send an email 5 minutes from now
     const job1 = await agenda.schedule('in 1 minutes', 'send-email', {
         emailRecipient,
-        emailSubject: 'Hello (5-minute job)',
-        emailText: 'Hi there from the 5-minute job!',
+        emailSubject: "Don't Miss Out on Your Cart - Complete Your Purchase Today!",
+        emailText: JSON.stringify(data),
     });
 
     // Schedule to send an email 2 hours from now
     const job2 = await agenda.schedule('in 2 hours', 'send-email', {
         emailRecipient,
-        emailSubject: 'Hello (2-hour job)',
-        emailText: 'Hi there from the 2-hour job!',
+        emailSubject: "Don't Miss Out on Your Cart - Complete Your Purchase Today!",
+        emailText: JSON.stringify(data),
     });
 
     const jobId1 = job1.attrs._id.toString();
