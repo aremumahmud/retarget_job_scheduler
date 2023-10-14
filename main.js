@@ -11,7 +11,7 @@ const app = express();
 app.use(express.json());
 app.use(cors())
 
-console.log(process.env)
+
 const mongoConnectionString = process.env.MONGO_URL; // Replace with your MongoDB URL
 const agenda = new Agenda({ db: { address: mongoConnectionString } });
 

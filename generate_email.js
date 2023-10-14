@@ -176,8 +176,8 @@ function generate(points) {
     let total = 0
     let clone = [...points.products]
     clone.forEach(x => {
-        console.log(x.price)
-        console.log(+(x.price).toFixed(2))
+        // console.log(x.price)
+        // console.log(+(x.price).toFixed(2))
         total += +((x.price) * x.quantity_for_cart).toFixed(2)
     })
 
