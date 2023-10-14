@@ -77,6 +77,29 @@ app.post('/create-cron-job', async(req, res) => {
 });
 
 
+app.post('/deletejobs', async(req, res) => {
+    try {
+        const { jobIdsToDelete } = req.body;
+        if (jobIdsToDelete && Array.isArray(jobIdsToDelete)) {
+            for (const jobIdToDelete of jobIdsToDelete) {
+                await agenda.cancel({ _id: jobIdToDelete });
+                console.log(`Job ${jobIdToDelete} was deleted as requested.`);
+            }
+        }
+        res.json({
+            success: true,
+            error: false
+        });
+    } catch (err) {
+        res.json({
+            success: false,
+            error: err
+        });
+    }
+})
+
+
+
 
 agenda.start().then(() => {
     console.log('Agenda started successfully');
