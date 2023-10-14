@@ -138,7 +138,7 @@ let product = (x, data) => `
 <tr>
     <td>${x.parent_product}</td>
     <td>${x.size || '55'}</td>
-    <td>${x.quantity}</td>
+    <td>${x.quantity_for_cart}</td>
     <td>${data.currency +  String(+(x.price).toFixed(2))}</td>
 </tr>
 
@@ -178,7 +178,7 @@ function generate(points) {
     clone.forEach(x => {
         console.log(x.price)
         console.log(+(x.price).toFixed(2))
-        total += +((x.price) * x.quantity).toFixed(2)
+        total += +((x.price) * x.quantity_for_cart).toFixed(2)
     })
 
     let template_final = template(points) + prods + end(points, total)

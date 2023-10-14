@@ -3,11 +3,13 @@ const nodemailer = require('nodemailer');
 const dotenv = require('dotenv');
 const Agenda = require('agenda');
 const generate = require('./generate_email');
+const cors = require('cors')
 
 dotenv.config();
 
 const app = express();
 app.use(express.json());
+app.use(cors())
 
 console.log(process.env)
 const mongoConnectionString = process.env.MONGO_URL; // Replace with your MongoDB URL
@@ -21,7 +23,7 @@ agenda.define('send-email', async(job) => {
         const transporter = nodemailer.createTransport({
             host: process.env.EMAIL_SERVICE_PROVIDER,
             port: 465,
-            secure: true, 
+            secure: true,
             auth: {
                 user: process.env.EMAIL_USER,
                 pass: process.env.EMAIL_PASSWORD,
