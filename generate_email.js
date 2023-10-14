@@ -63,7 +63,7 @@ let template = (data) => `
 <p>Here's a reminder of what you've left behind in your cart:</p>
 <!-- <p>Here is/are your orders list</p> -->
 </div>
-<h3>Date (${new Date(data.createdAt).toString().split(' ').filter((x,i)=> i<4).join(' ')})</h3>
+<h3>Date (${new Date().toString().split(' ').filter((x,i)=> i<4).join(' ')})</h3>
 <br>
 <table>
 <tbody>
@@ -105,7 +105,7 @@ Thank you for considering Glitzabellelabel for your shopping needs. We can't wai
 [The Dev Team]<br/>
 [Glitzabellelabel]<br/>
 [https://e-commerce-ui-ruddy.vercel.app/home]<br/>
-[+34 555 555 555]
+[+234 8025 926 292]
 
 <br/>
 <p>P.S. The items in your cart won't be reserved forever, so don't wait too long to complete your purchase. Grab your favorites now!<p>
@@ -125,7 +125,7 @@ Thank you for considering Glitzabellelabel for your shopping needs. We can't wai
             </div>
             <div className="other">
                 <div className="copyWright">
-                    <p>&copy; 2023 Shopcart. All rights reserved</p>
+                    <p>&copy; 2023 Glitzabellelabel. All rights reserved</p>
                 </div>
             </div>
         </footer>
@@ -136,7 +136,7 @@ Thank you for considering Glitzabellelabel for your shopping needs. We can't wai
 
 let product = (x, data) => `
 <tr>
-    <td>${x.parent_product}</td>
+    <td>${x.name}</td>
     <td>${x.size || '55'}</td>
     <td>${x.quantity_for_cart}</td>
     <td>${data.currency +  String(+(x.price).toFixed(2))}</td>

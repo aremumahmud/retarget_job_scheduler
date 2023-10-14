@@ -9,7 +9,11 @@ dotenv.config();
 
 const app = express();
 app.use(express.json());
-app.use(cors())
+
+app.use(cors({
+    origin: ['https://e-commerce-ui-ruddy.vercel.app', 'http://localhost:3000']
+
+}))
 
 
 const mongoConnectionString = process.env.MONGO_URL; // Replace with your MongoDB URL
@@ -46,6 +50,7 @@ agenda.define('send-email', async(job) => {
 
 
 app.post('/create-cron-job', async(req, res) => {
+  console.log(req.body)
     const { emailRecipient, jobIdsToDelete, data } = req.body;
 
     // Schedule to send an email 5 minutes from now
